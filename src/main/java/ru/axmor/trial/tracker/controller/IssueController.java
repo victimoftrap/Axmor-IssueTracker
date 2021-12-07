@@ -1,6 +1,8 @@
 package ru.axmor.trial.tracker.controller;
 
+import org.springframework.validation.BindingResult;
 import ru.axmor.trial.tracker.exception.IssueNotFoundException;
+import ru.axmor.trial.tracker.model.IssueStatus;
 import ru.axmor.trial.tracker.service.IssueService;
 import ru.axmor.trial.tracker.dto.request.issue.CreateCommentDtoRequest;
 import ru.axmor.trial.tracker.dto.request.issue.CreateIssueDtoRequest;
@@ -33,7 +35,13 @@ public class IssueController {
 
     @PostMapping
     public String createIssue(
-            @Valid @ModelAttribute("issue") final CreateIssueDtoRequest request) {
+            @Valid @ModelAttribute("issue") final CreateIssueDtoRequest request,
+            final BindingResult bindingResult,
+            final Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("issue", request);
+            return "create_issue_page";
+        }
         final var response = issueService.createIssue(request);
         return "redirect:/issues";
     }
@@ -56,17 +64,23 @@ public class IssueController {
         final var response = issueService.getIssueById(id);
         model.addAttribute("issue", response);
         model.addAttribute("commentDto", new CreateCommentDtoRequest());
+        model.addAttribute("statusList", IssueStatus.values());
         return "single_issue_page";
     }
 
     @PostMapping("/{id}/comments")
-    public RedirectView addComment(
+    public String addComment(
             @PathVariable("id") final long id,
-            @Valid @ModelAttribute("commentDto") final CreateCommentDtoRequest commentDto) throws IssueNotFoundException {
+            @Valid @ModelAttribute("commentDto") final CreateCommentDtoRequest commentDto,
+            final BindingResult bindingResult,
+            final Model model) throws IssueNotFoundException {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("issue", issueService.getIssueById(id));
+            model.addAttribute("commentDto", commentDto);
+            model.addAttribute("statusList", IssueStatus.values());
+            return "single_issue_page";
+        }
         final var response = issueService.addComment(id, commentDto);
-        var redirect = new RedirectView();
-        redirect.setContextRelative(true);
-        redirect.setUrl("/issues/{id}");
-        return redirect;
+        return "redirect:/issues/{id}";
     }
 }

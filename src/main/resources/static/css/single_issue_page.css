@@ -92,3 +92,7 @@
 
 .comment-form__button {
 }
+
+.comment-form__input-error {
+    color: red;
+}

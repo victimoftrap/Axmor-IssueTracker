@@ -57,11 +57,12 @@
                           th:object="${commentDto}">
                         <div class="comment-form__row">
                             <label class="comment-form__title" for="comm-status">Status</label>
-                            <input class="comment-form__input"
-                                   type="text"
-                                   id="comm-status"
-                                   name="status"
-                                   placeholder="Status">
+                            <select id="comm-status" name="status">
+                                <option th:each="statusOpt : ${statusList}"
+                                        th:value="${statusOpt}"
+                                        th:text="${statusOpt}">
+                                </option>
+                            </select>
                         </div>
 
                         <div class="comment-form__row">
@@ -71,6 +72,10 @@
                                    id="comm-author"
                                    name="author"
                                    placeholder="Author">
+                            <span class="comment-form__input-error"
+                                  th:if="${#fields.hasErrors('author')}"
+                                  th:errors="*{author}">
+                            </span>
                         </div>
 
                         <div class="comment-form__row">
@@ -79,6 +84,10 @@
                                       name="text"
                                       id="comm-text">
                             </textarea>
+                            <span class="comment-form__input-error"
+                                  th:if="${#fields.hasErrors('text')}"
+                                  th:errors="*{text}">
+                            </span>
                         </div>
 
                         <div class="comment-form__row comment-form__control-buttons">

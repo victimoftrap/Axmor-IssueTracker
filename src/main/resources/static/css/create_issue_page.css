@@ -16,6 +16,7 @@
 }
 
 .form__input-error {
+    color: red;
 }
 
 #description {
@@ -33,9 +34,7 @@
 }
 
 .form__button{
-    /*padding: 5px 20px;
-    background-color: lightblue;
-    border: 1px solid;
-    color: white;
-    cursor: pointer;*/
+    padding: 10px 30px;
+    font-size: 15px;
+    margin-right: 20px;
 }

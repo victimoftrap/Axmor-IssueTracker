@@ -1,9 +1,12 @@
 package ru.axmor.trial.tracker.controller;
 
-import org.springframework.security.test.context.support.WithMockUser;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import ru.axmor.trial.tracker.dto.request.issue.CreateCommentDtoRequest;
 import ru.axmor.trial.tracker.dto.request.issue.CreateIssueDtoRequest;
 import ru.axmor.trial.tracker.dto.response.issue.*;
+import ru.axmor.trial.tracker.exception.IssueNotFoundException;
 import ru.axmor.trial.tracker.model.IssueStatus;
 import ru.axmor.trial.tracker.service.IssueService;
 
@@ -17,12 +20,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.mockito.ArgumentMatchers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,6 +72,49 @@ class IssueControllerTest {
         verify(mockIssueService, times(1))
                 .createIssue(request);
         verifyNoMoreInteractions(mockIssueService);
+    }
+
+    static Stream<Arguments> issueInvalidParams() {
+        return Stream.of(
+                Arguments.arguments(
+                        new CreateIssueDtoRequest(
+                                "", "Arthur Dent", "No answer for this question"
+                        ),
+                        "must not be blank"
+                ),
+                Arguments.arguments(
+                        new CreateIssueDtoRequest(
+                                "Issue", "", "No answer for this question"
+                        ),
+                        "must not be blank"
+                ),
+                Arguments.arguments(
+                        new CreateIssueDtoRequest(
+                                "Issue", "Arthur Dent", ""
+                        ),
+                        "must not be blank"
+                )
+        );
+    }
+
+    @WithMockUser
+    @ParameterizedTest
+    @MethodSource("issueInvalidParams")
+    public void testCreateNewIssue_invalidData_shouldReturnSamePageWithErrors(
+            final CreateIssueDtoRequest request,
+            final String errorString
+    ) throws Exception {
+        final MvcResult result = mvc.perform(post("/issues")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", request.getName())
+                        .param("author", request.getAuthor())
+                        .param("description", request.getDescription())
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("create_issue_page"))
+                .andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains(errorString));
+        verifyNoInteractions(mockIssueService);
     }
 
     @Test
@@ -151,6 +199,22 @@ class IssueControllerTest {
         verifyNoMoreInteractions(mockIssueService);
         assertEquals(issue, result.getModelAndView().getModel().get("issue"));
         assertEquals(new CreateCommentDtoRequest(), result.getModelAndView().getModel().get("commentDto"));
+    }
+
+    @Test
+    @WithMockUser
+    public void testGetById_issueNotFound_shouldReturnErrorPage() throws Exception {
+        when(mockIssueService.getIssueById(anyLong()))
+                .thenThrow(new IssueNotFoundException("Not found"));
+
+        mvc.perform(get("/issues/{id}", 1L))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("error"))
+                .andReturn();
+
+        verify(mockIssueService, times(1)).
+                getIssueById(1L);
+        verifyNoMoreInteractions(mockIssueService);
     }
 
     @Test
