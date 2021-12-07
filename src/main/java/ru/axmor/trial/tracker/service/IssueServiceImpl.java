@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class IssueServiceImpl implements IssueService {
                 foundIssue.getId(),
                 foundIssue.getName(),
                 foundIssue.getStatus().getName(),
-                foundIssue.getCreatedAt().toString(),
+                foundIssue.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 foundIssue.getAuthor(),
                 foundIssue.getDescription(),
                 foundIssue.getComments()
@@ -92,7 +93,7 @@ public class IssueServiceImpl implements IssueService {
                         .map(comment -> new CommentDtoResponse(
                                 comment.getId(),
                                 comment.getAuthor(),
-                                comment.getUpdatedAt().toString(),
+                                comment.getUpdatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                                 comment.getNewStatus().getName(),
                                 comment.getText()
                         ))
@@ -109,7 +110,7 @@ public class IssueServiceImpl implements IssueService {
                 responseList.add(new ShortIssueDtoResponse(
                         aIssue.getId(),
                         aIssue.getName(),
-                        aIssue.getCreatedAt().toString(),
+                        aIssue.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                         aIssue.getStatus().getName()
                 ))
         );

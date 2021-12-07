@@ -12,6 +12,7 @@ import ru.axmor.trial.tracker.repository.CommentRepository;
 import ru.axmor.trial.tracker.repository.IssueRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,7 +94,7 @@ class IssueServiceImplTest {
                 .map(comm -> new CommentDtoResponse(
                         comm.getId(),
                         comm.getAuthor(),
-                        comm.getUpdatedAt().toString(),
+                        comm.getUpdatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                         comm.getNewStatus().getName(),
                         comm.getText()
                 ))
@@ -102,7 +103,7 @@ class IssueServiceImplTest {
                 issue.getId(),
                 issue.getName(),
                 issue.getStatus().getName(),
-                issue.getCreatedAt().toString(),
+                issue.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 issue.getAuthor(),
                 issue.getDescription(),
                 commentsResponse
@@ -164,7 +165,7 @@ class IssueServiceImplTest {
                 issues.stream().map(iss -> new ShortIssueDtoResponse(
                                 iss.getId(),
                                 iss.getName(),
-                                iss.getCreatedAt().toString(),
+                                iss.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                                 iss.getStatus().getName()
                         ))
                         .collect(Collectors.toList())
