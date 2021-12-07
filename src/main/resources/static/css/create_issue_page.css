@@ -1,0 +1,41 @@
+.new-issue {
+    margin-top: 50px;
+    padding: 10px;
+}
+
+.new-issue__title {
+    margin: 0;
+}
+
+.form {
+    width: 100%;
+}
+
+.form__row{
+    margin: 10px;
+}
+
+.form__input-error {
+}
+
+#description {
+    width: 100%;
+}
+
+.form__title ~ textarea {
+    display: block;
+}
+
+.form__control-buttons{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.form__button{
+    /*padding: 5px 20px;
+    background-color: lightblue;
+    border: 1px solid;
+    color: white;
+    cursor: pointer;*/
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Issue</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:href="@{/css/layout.css}" rel="stylesheet">
+        <link th:href="@{/css/single_issue_page.css}" rel="stylesheet">
+        <link th:href="@{/css/issues_page.css}" rel="stylesheet">
+        <link th:replace="fragments/header :: header-css">
+    </head>
+    <body>
+        <header th:replace="fragments/header :: header"></header>
+        <main class="tracker">
+            <article class="tracker__single-issue single-issue"
+                     th:object="${issue}">
+                <h2 class="single-issue__name" th:text="${issue.name}"></h2>
+
+                <div class="single-issue__row">
+                    <label class="single-issue__field-title" for="status">Status</label>
+                    <div class="single-issue__field-value" id="status" th:text="${issue.status}"></div>
+                </div>
+
+                <div class="single-issue__row">
+                    <label class="single-issue__field-title" for="date">Start date</label>
+                    <div class="single-issue__field-value" id="date" th:text="${issue.createdAt}"></div>
+                </div>
+
+                <div class="single-issue__row">
+                    <label class="single-issue__field-title" for="author">Author</label>
+                    <div class="single-issue__field-value" id="author" th:text="${issue.author}"></div>
+                </div>
+
+                <div class="single-issue__row">
+                    <label class="single-issue__field-title" for="description">Description</label>
+                    <p class="single-issue__description" id="description" th:text="${issue.description}"></p>
+                </div>
+
+                <div class="single-issue__field-title">Comments:</div>
+                <ul class="single-issue__comments comments">
+                    <th:block th:each="comment : ${issue.comments}">
+                        <li class="comments__item">
+                            <div class="comments__meta"
+                                 th:text="'Update by ' + ${comment.author} + ' ' + ${comment.updatedAt} + ':'">
+                            </div>
+                            <i class="comments__status" th:text="'Status changed to ' + ${comment.status}"></i>
+                            <p class="comments__text" th:text="${comment.text}"></p>
+                        </li>
+                    </th:block>
+                </ul>
+
+                <section class="single-issue__add-comment">
+                    <form class="single-issue__comment-form comment-form"
+                          method="post"
+                          th:action="@{'/issues/' + ${issue.id} + '/comments'}"
+                          th:object="${commentDto}">
+                        <div class="comment-form__row">
+                            <label class="comment-form__title" for="comm-status">Status</label>
+                            <input class="comment-form__input"
+                                   type="text"
+                                   id="comm-status"
+                                   name="status"
+                                   placeholder="Status">
+                        </div>
+
+                        <div class="comment-form__row">
+                            <label class="comment-form__title" for="comm-author">Author</label>
+                            <input class="comment-form__input"
+                                   type="text"
+                                   id="comm-author"
+                                   name="author"
+                                   placeholder="Author">
+                        </div>
+
+                        <div class="comment-form__row">
+                            <label class="comment-form__title" for="comm-text">Text</label>
+                            <textarea class="comment-form__input"
+                                      name="text"
+                                      id="comm-text">
+                            </textarea>
+                        </div>
+
+                        <div class="comment-form__row comment-form__control-buttons">
+                            <input class="comment-form__button" type="submit" value="Add">
+                        </div>
+                    </form>
+                </section>
+            </article>
+        </main>
+    </body>
+</html>

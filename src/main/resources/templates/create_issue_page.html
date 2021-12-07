@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create issue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/layout.css}" rel="stylesheet">
+    <link th:href="@{/css/create_issue_page.css}" rel="stylesheet">
+    <link th:replace="fragments/header :: header-css">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <main class="tracker">
+        <article class="tracker__new-issue new-issue">
+            <h1 class="new-issue__title">Create issue</h1>
+            <form class="new-issue__form form"
+                  method="post"
+                  action="#"
+                  enctype="multipart/form-data"
+                  th:action="@{/issues}"
+                  th:object="${issue}">
+                <div class="form__row">
+                    <label class="form__title" for="name">Name</label>
+                    <input class="form__input"
+                           type="text" id="name"
+                           placeholder="Name"
+                           name="name"
+                           th:field="*{name}">
+                    <span class="form__input-error"
+                          th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}">
+                        Name shouldn't be empty
+                    </span>
+                </div>
+
+                <div class="form__row">
+                    <label class="form__title" for="author">Author</label>
+                    <input class="form__input"
+                           type="text"
+                           id="author"
+                           placeholder="Author"
+                           name="author"
+                           th:field="*{author}">
+                    <span class="form__input-error"
+                          th:if="${#fields.hasErrors('author')}"
+                          th:errors="*{author}">
+                        Author shouldn't be empty
+                    </span>
+                </div>
+
+                <div class="form__row">
+                    <label class="form__title" for="description">Description</label>
+                    <textarea class="form__input"
+                              id="description"
+                              name="description"
+                              th:field="*{description}">
+                    </textarea>
+                    <span class="form__input-error"
+                          th:if="${#fields.hasErrors('description')}"
+                          th:errors="*{description}">
+                        Description shouldn't be empty
+                    </span>
+                </div>
+
+                <div class="form__row form__control-buttons">
+                    <input class="form__button" type="submit" value="Save">
+                    <input class="form__button" type="button" value="Cancel">
+                </div>
+            </form>
+    </article>
+    </main>
+</body>
+</html>

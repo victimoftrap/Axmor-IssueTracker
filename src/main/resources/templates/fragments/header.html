@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:fragment="header-css" th:href="@{/css/header.css}" rel="stylesheet">
+</head>
+<body>
+    <header th:fragment="header" class="header">
+        <nav class="header__nav">
+            <a class="header__home" th:href="@{/issues}">Issue Tracker</a>
+            <a class="header__new" th:href="@{/issues/create}">New issue</a>
+        </nav>
+    </header>
+</body>
+</html>

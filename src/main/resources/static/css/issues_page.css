@@ -1,0 +1,35 @@
+.tracker__issues {
+    margin: 0 auto;
+    padding: 0;
+    width: 90%;
+    margin-top: 50px;
+}
+
+.issues {
+    list-style: none;
+}
+
+.issues__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 24px 8px;
+}
+
+.issues__item:hover {
+    content: '';
+    padding: 23px 7px;
+    border: solid 1px;
+}
+
+.issues__name {
+    flex-grow: 2;
+}
+
+.issues__status {
+    width: 100px;
+}
+
+.issues__date {
+
+}

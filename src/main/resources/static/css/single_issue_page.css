@@ -1,0 +1,94 @@
+.tracker__single-issue {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.single-issue {
+    font-family: 'Roboto', sans-serif;
+}
+
+.single-issue__name {
+}
+
+.single-issue__row{
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#status {
+    text-transform: lowercase;
+}
+
+#status:first-letter {
+    text-transform: uppercase;
+}
+
+.single-issue__field-title {
+    font-weight: bold;
+}
+
+.single-issue__field-value {
+}
+
+.single-issue__description {
+}
+
+.single-issue__comments {
+}
+
+.comments {
+    list-style: none;
+}
+
+.comments__item {
+}
+
+.comments__meta {
+}
+
+.comments__author {
+}
+
+.comments__date {
+}
+
+.comments__status {
+}
+
+.comments__text {
+}
+
+.single-issue__add-comment {
+    margin-top: 20px;
+    padding: 10px;
+    border: solid 1px;
+}
+
+.single-issue__comment-form {
+}
+
+.comment-form {
+    width: 100%;
+}
+
+.comment-form__row {
+    margin: 10px;
+}
+
+#comm-text {
+    width: 80%;
+}
+
+.comment-form__title {
+}
+
+.comment-form__input {
+}
+
+.comment-form__control-buttons {
+}
+
+.comment-form__button {
+}

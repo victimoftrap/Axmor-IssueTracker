@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Issues</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:href="@{/css/layout.css}" rel="stylesheet">
+        <link th:href="@{/css/issues_page.css}" rel="stylesheet">
+        <link th:replace="fragments/header :: header-css">
+    </head>
+    <body>
+        <header th:replace="fragments/header :: header"></header>
+        <main class="tracker">
+            <ul class="tracker__issues issues">
+                <th:block th:each="issue : ${issues}">
+                    <li class="issues__item">
+                        <a class="issues__name"
+                           th:href="@{/issues/{id}(id=${issue.id})}" th:text="${issue.name}">
+                        </a>
+                        <div class="issues__status" th:text="${issue.status}"></div>
+                        <time class="issues__date" th:text="${issue.createdAt}"></time>
+                    </li>
+                </th:block>
+            </ul>
+        </main>
+    </body>
+</html>

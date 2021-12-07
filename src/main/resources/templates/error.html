@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Not found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:replace="fragments/header :: header-css">
+    <link th:href="@{/css/layout.css}" rel="stylesheet">
+    <link th:href="@{/css/error_page.css}" rel="stylesheet">
+</head>
+    <body>
+        <header th:replace="fragments/header :: header"></header>
+        <main class="tracker">
+            <section class="tracker__not-found not-found">
+                <h1 class="not-found__title">Whoops! Nothing to see here!</h1>
+                <a class="not-found__link" th:href="@{/issues/}">Go home</a>
+            </section>
+        </main>
+    </body>
+</html>

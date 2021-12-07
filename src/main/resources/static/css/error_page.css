@@ -1,0 +1,18 @@
+.tracker__not-found {
+    margin-top: 50px;
+}
+
+.not-found {
+}
+
+.not-found__title {
+    text-decoration: none;
+    text-align: center;
+}
+
+.not-found__link {
+    display: inherit;
+    text-align: center;
+    font-size: 20px;
+    color: lightblue;
+}
